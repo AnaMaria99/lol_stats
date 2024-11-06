@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champion Mastery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+    <a href="/"  class="btn mt-3">Start Page -> Search summoner</a>
+    <a href="/champion_mastery/{{ puuid }}****{{ summoner_id }}" class="btn btn-primary mt-3">View Champion Mastery</a>
+    <a href="/ranked_stats/{{ puuid }}****{{ summoner_id }}" class="btn btn-secondary mt-3">View Ranked Stats</a>
+    <a href="/match_history/{{ puuid }}" class="btn btn-info mt-3">View Match History</a>
+        <h1 class="mt-5">Champion Mastery</h1>
+
+        <table id="sortMe" class="table table-bordered mt-3">
+            <thead>
+                <tr bgcolor="SlateBlue">
+                    <th data-type="number"><button class="table__header">Champion ID</button></th>
+                    <th><button class="table__header">Champion Name</button></th>
+                    <th data-type="number"><button class="table__header">Mastery Level</button></th>
+                    <th data-type="number"><button class="table__header">Mastery Points</button></th>
+                    <th><button class="table__header">Last Played</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for champion in mastery_data %}
+                <tr bgcolor="a7se8ff">
+                    <td>{{ champion.championId }}</td>
+                    <td>{{ champion.championName }}</td>
+                    <td>{{ champion.championLevel }}</td>
+                    <td>{{ champion.championPoints }}</td>
+                    <td>{{ champion.lastPlayTime }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.getElementById('sortMe');
+    const headers = table.querySelectorAll('th');
+    const tableBody = table.querySelector('tbody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    // Track sort directions
+    const directions = Array.from(headers).map(function (header) {
+        return '';
+    });
+
+    // Transform the content of given cell in given column
+    const transform = function (index, content) {
+        // Get the data type of column
+        const type = headers[index].getAttribute('data-type');
+        switch (type) {
+            case 'number':
+                return parseFloat(content);
+            case 'string':
+            default:
+                return content;
+        }
+    };
+
+    const sortColumn = function (index) {
+        // Get the current direction
+        const direction = directions[index] || 'asc';
+
+        // A factor based on the direction
+        const multiplier = direction === 'asc' ? 1 : -1;
+
+        const newRows = Array.from(rows);
+
+        newRows.sort(function (rowA, rowB) {
+            const cellA = rowA.querySelectorAll('td')[index].innerHTML;
+            const cellB = rowB.querySelectorAll('td')[index].innerHTML;
+
+            const a = transform(index, cellA);
+            const b = transform(index, cellB);
+
+            switch (true) {
+                case a > b:
+                    return 1 * multiplier;
+                case a < b:
+                    return -1 * multiplier;
+                case a === b:
+                    return 0;
+            }
+        });
+
+        // Remove old rows
+        [].forEach.call(rows, function (row) {
+            tableBody.removeChild(row);
+        });
+
+        // Reverse the direction
+        directions[index] = direction === 'asc' ? 'desc' : 'asc';
+
+        // Append new row
+        newRows.forEach(function (newRow) {
+            tableBody.appendChild(newRow);
+        });
+    };
+
+    [].forEach.call(headers, function (header, index) {
+        header.addEventListener('click', function () {
+            sortColumn(index);
+        });
+    });
+});
+</script>

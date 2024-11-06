@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summoner Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Summoner Profile: {{summoner_name}}</h1>
+        <a href="/champion_mastery/{{ puuid }}****{{ summoner_id }}" class="btn btn-primary mt-3">View Champion Mastery</a>
+        <a href="/ranked_stats/{{ puuid }}****{{ summoner_id }}" class="btn btn-secondary mt-3">View Ranked Stats</a>
+        <a href="/match_history/{{ puuid }}" class="btn btn-info mt-3">View Match History</a>
+    </div>
+</body>
+</html>

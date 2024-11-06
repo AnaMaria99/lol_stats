@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match History</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <a href="/"  class="btn mt-3">Start Page -> Search summoner</a>
+    <a href="/champion_mastery/{{ puuid }}****{{ summoner_id }}" class="btn btn-primary mt-3">View Champion Mastery</a>
+    <a href="/ranked_stats/{{ puuid }}****{{ summoner_id }}" class="btn btn-secondary mt-3">View Ranked Stats</a>
+    <a href="/match_history/{{ puuid }}" class="btn btn-info mt-3">View Match History</a>
+    <h1 class="mt-5">Match History</h1>
+
+    <ul class="list-group mt-3">
+        {% for match in match_details %}
+        <li class="list-group-item">
+            <strong>Game ID:</strong> {{ match.info.gameId }}<br>
+            <!--                <strong>Champion:</strong> {{ match.champion }}<br>-->
+            <!--                <strong>Role:</strong> {{ match.role }}<br>-->
+            <!--                <strong>Lane:</strong> {{ match.lane }}<br>-->
+            <!--                <strong>Timestamp:</strong> {{ match.timestamp }}-->
+            <strong>PLayers in the game: </strong>
+            <dd>
+                {% for player in match.info.participants %}
+                <a class="button" href="/profile/{{ player.riotIdGameName }}****{{ player.riotIdTagline }}">{{player.riotIdGameName}}</a>,
+                {% endfor %}
+            </dd>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

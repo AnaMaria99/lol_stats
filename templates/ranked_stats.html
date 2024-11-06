@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranked Stats</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+    <a href="/"  class="btn mt-3">Start Page -> Search summoner</a>
+    <a href="/champion_mastery/{{ puuid }}****{{ summoner_id }}" class="btn btn-primary mt-3">View Champion Mastery</a>
+    <a href="/ranked_stats/{{ puuid }}****{{ summoner_id }}" class="btn btn-secondary mt-3">View Ranked Stats</a>
+    <a href="/match_history/{{ puuid }}" class="btn btn-info mt-3">View Match History</a>
+        <h1 class="mt-5">Ranked Stats</h1>
+
+        <ul class="list-group mt-3">
+            {% for entry in ranked_stats %}
+            <li class="list-group-item">
+                <strong>Queue Type:</strong> {{ entry.queueType }}<br>
+                <strong>Tier:</strong> {{ entry.tier }} {{ entry.rank }}<br>
+                <strong>LP:</strong> {{ entry.leaguePoints }}<br>
+                <strong>Wins:</strong> {{ entry.wins }}<br>
+                <strong>Losses:</strong> {{ entry.losses }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
